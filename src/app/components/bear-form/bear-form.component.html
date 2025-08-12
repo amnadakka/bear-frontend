@@ -1,0 +1,72 @@
+<div class="bear-form-container fade-in-up">
+  <h2>Add New Bear</h2>
+  
+  <form [formGroup]="bearForm" (ngSubmit)="onSubmit()" class="bear-form">
+    <div class="form-group">
+      <label for="name" class="form-label">Name</label>
+      <input 
+        type="text" 
+        id="name" 
+        formControlName="name" 
+        placeholder="Enter bear name"
+        class="form-control"
+        [class.error]="nameError"
+      >
+      <div class="error-message" *ngIf="nameError">{{ nameError }}</div>
+    </div>
+
+    <div class="form-group">
+      <label for="size" class="form-label">Size</label>
+      <input 
+        type="number" 
+        id="size" 
+        formControlName="size" 
+        placeholder="Enter bear size"
+        class="form-control"
+        [class.error]="sizeError"
+        min="1"
+      >
+      <div class="error-message" *ngIf="sizeError">{{ sizeError }}</div>
+    </div>
+
+    <div class="form-group">
+      <label for="colors" class="form-label">Colors</label>
+      <div class="color-selection" *ngIf="!isLoading(); else loadingColors">
+        <div class="color-options">
+          <div 
+            *ngFor="let color of colors(); trackBy: trackByColorId; let i = index" 
+            class="color-option fade-in-up"
+            [class.selected]="bearForm.get('colorIds')?.value?.includes(color.id)"
+            (click)="toggleColor(color.id)"
+            [style.animation-delay]="'calc(' + i + ' * 0.1s)'"
+          >
+            <div class="color-preview" [style.background-color]="color.hexa"></div>
+            <span>{{ color.name }}</span>
+          </div>
+        </div>
+        <div class="error-message" *ngIf="colorError">{{ colorError }}</div>
+      </div>
+      <ng-template #loadingColors>
+        <div class="loading pulse">Loading colors...</div>
+      </ng-template>
+    </div>
+
+    <div class="form-actions">
+      <button 
+        type="submit" 
+        class="btn btn-primary submit-btn"
+        [disabled]="bearForm.invalid || isLoading()"
+      >
+        {{ isLoading() ? 'Adding...' : 'Add Bear' }}
+      </button>
+    </div>
+  </form>
+
+  <div class="alert alert-success" *ngIf="showSuccess()">
+    🎉 Bear added successfully! Check the collection below.
+  </div>
+
+  <div class="alert alert-error" *ngIf="error()">
+    {{ error() }}
+  </div>
+</div>

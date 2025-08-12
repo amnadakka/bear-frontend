@@ -1,0 +1,62 @@
+<div class="bear-list-container fade-in-up">
+  <h2>Bear Collection</h2>
+  
+  <div class="filter-section">
+    <label for="colorFilter" class="form-label">Filter by Color</label>
+    <select 
+      id="colorFilter" 
+      class="filter-select"
+      (change)="changeColorFilter($event)"
+    >
+      <option value="">All Colors</option>
+      <option 
+        *ngFor="let color of colors()" 
+        [value]="color.id"
+      >
+        {{ color.name }}
+      </option>
+    </select>
+  </div>
+
+  <div class="bears-content" *ngIf="!isLoading(); else loadingBears">
+    <div class="bears-grid" *ngIf="filteredBears().length > 0; else noBears">
+      <div 
+        *ngFor="let bear of filteredBears(); trackBy: trackByBearId; let i = index" 
+        class="bear-card fade-in-up"
+        [style.animation-delay]="'calc(' + i + ' * 0.1s)'"
+      >
+        <div class="bear-header">
+          <h3>{{ bear.name }}</h3>
+          <span class="bear-size">{{ bear.size }}</span>
+        </div>
+        
+        <div class="bear-colors">
+          <span class="colors-label">Colors</span>
+          <div class="color-chips">
+            <span 
+              *ngFor="let color of bear.colors; trackBy: trackByColorId" 
+              class="color-chip"
+              [style.background-color]="color.hexa"
+            >
+              {{ color.name }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <ng-template #noBears>
+      <div class="no-bears fade-in-up">
+        <p>No bears found matching your criteria.</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <ng-template #loadingBears>
+    <div class="loading pulse">Loading bears...</div>
+  </ng-template>
+
+  <div class="alert alert-error" *ngIf="error()">
+    {{ error() }}
+  </div>
+</div>

@@ -1,0 +1,93 @@
+.app-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--primary-50) 0%, var(--primary-100) 100%);
+  padding: var(--space-lg);
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    pointer-events: none;
+  }
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: var(--space-3xl);
+  position: relative;
+  z-index: 1;
+  
+  h1 {
+    color: var(--gray-900);
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-800) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    letter-spacing: -0.025em;
+    
+    &::before {
+      content: '🐻';
+      display: inline-block;
+      margin-right: var(--space-md);
+      font-size: 1.2em;
+      vertical-align: middle;
+    }
+  }
+  
+  p {
+    color: var(--gray-600);
+    font-size: var(--font-size-lg);
+    margin-top: var(--space-md);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.app-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xl);
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .app-container {
+    padding: var(--space-md);
+  }
+  
+  .app-header {
+    margin-bottom: var(--space-2xl);
+    
+    h1 {
+      font-size: var(--font-size-3xl);
+      
+      &::before {
+        margin-right: var(--space-sm);
+      }
+    }
+  }
+  
+  .app-main {
+    gap: var(--space-2xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header h1 {
+    font-size: var(--font-size-2xl);
+  }
+}
