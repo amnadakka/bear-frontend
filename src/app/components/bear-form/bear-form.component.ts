@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BearService } from '../../services/bear.service';
 import { ColorService } from '../../services/color.service';
-import { CreateBearRequest } from '../../models/bear.interface';
+import { CreateBearRequest, Bear } from '../../models/bear.interface';
+import { BearIdentityComponent } from '../bear-identity/bear-identity.component';
 
 @Component({
   selector: 'app-bear-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, BearIdentityComponent],
   templateUrl: './bear-form.component.html',
   styleUrls: ['./bear-form.component.scss']
 })
@@ -22,6 +23,12 @@ export class BearFormComponent implements OnInit {
   isLoading = this.colorService.isLoading;
   error = this.colorService.error;
   showSuccess = signal(false);
+  
+  // Bear identity section
+  bearIdInput = signal('');
+  fetchedBear = signal<Bear | null>(null);
+  bearIdentityError = signal<string | null>(null);
+  isFetchingBear = signal(false);
 
   ngOnInit(): void {
     this.initializeForm();
@@ -98,7 +105,65 @@ export class BearFormComponent implements OnInit {
     }
   }
 
+  selectAllColors(): void {
+    const allColorIds = this.colors().map(color => color.id);
+    this.bearForm.get('colorIds')?.setValue(allColorIds);
+  }
+
+  clearAllColors(): void {
+    this.bearForm.get('colorIds')?.setValue([]);
+  }
+
+  getSelectedColorsCount(): number {
+    return this.bearForm.get('colorIds')?.value?.length || 0;
+  }
+
+  getSelectedColorsNames(): string[] {
+    const selectedColorIds = this.bearForm.get('colorIds')?.value || [];
+    return this.colors()
+      .filter(color => selectedColorIds.includes(color.id))
+      .map(color => color.name);
+  }
+
   trackByColorId(index: number, color: any): number {
     return color.id;
+  }
+
+  // Bear identity methods
+  onBearIdInput(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.bearIdInput.set(target.value);
+  }
+
+  fetchBearById(): void {
+    const bearId = parseInt(this.bearIdInput());
+    
+    if (!bearId || isNaN(bearId)) {
+      this.bearIdentityError.set('Please enter a valid bear ID');
+      this.fetchedBear.set(null);
+      return;
+    }
+
+    this.isFetchingBear.set(true);
+    this.bearIdentityError.set(null);
+    this.fetchedBear.set(null);
+
+    this.bearService.getBearById(bearId).subscribe({
+      next: (bear) => {
+        this.fetchedBear.set(bear);
+        this.isFetchingBear.set(false);
+      },
+      error: (error) => {
+        this.bearIdentityError.set('Bear not found or invalid ID');
+        this.fetchedBear.set(null);
+        this.isFetchingBear.set(false);
+      }
+    });
+  }
+
+  clearBearIdentity(): void {
+    this.bearIdInput.set('');
+    this.fetchedBear.set(null);
+    this.bearIdentityError.set(null);
   }
 }

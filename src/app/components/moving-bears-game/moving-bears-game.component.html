@@ -1,0 +1,92 @@
+<div class="moving-bears-game">
+  <div class="game-header">
+    <h2>Moving Bears Challenge</h2>
+    <p class="game-instructions">
+      Click on all bears in ascending order by ID within 30 seconds!
+    </p>
+  </div>
+
+  <!-- Game Controls -->
+  <div class="game-controls">
+    <div class="timer-section">
+      <div class="timer" [class.warning]="timeLeft() <= 10">
+        <span class="timer-label">Time Left:</span>
+        <span class="timer-value">{{ timeLeft() }}s</span>
+      </div>
+      <div class="progress-section">
+        <span class="progress-label">Progress:</span>
+        <span class="progress-value">{{ currentClickIndex() }}/{{ sortedBears().length }}</span>
+      </div>
+    </div>
+
+    <div class="game-buttons">
+      <button 
+        *ngIf="gameState() === 'waiting'" 
+        (click)="startGame()" 
+        class="btn btn-primary"
+        [disabled]="movingBears().length === 0">
+        Start Game
+      </button>
+      <button 
+        *ngIf="gameState() === 'won' || gameState() === 'lost'" 
+        (click)="restartGame()" 
+        class="btn btn-secondary">
+        Play Again
+      </button>
+    </div>
+  </div>
+
+  <!-- Game Message -->
+  <div *ngIf="gameMessage()" class="game-message" [class]="gameState()">
+    <div class="message-content">
+      <h3 *ngIf="gameState() === 'won'" class="win-message">🎉 You Win! 🎉</h3>
+      <h3 *ngIf="gameState() === 'lost'" class="lose-message">😞 You Lose! 😞</h3>
+      <p>{{ gameMessage() }}</p>
+    </div>
+  </div>
+
+  <!-- Game Container -->
+  <div class="game-container" [ngStyle]="gameContainerStyle()" (click)="onContainerClick($event)">
+    <div 
+      *ngFor="let bear of movingBears()" 
+      class="bear-item"
+      [ngStyle]="getBearStyle(bear)"
+      (click)="onBearClick(bear); $event.stopPropagation()"
+      [class.clicked]="bear.clicked">
+      
+      <div class="bear-content">
+        <div class="bear-id">{{ bear.id }}</div>
+        <div class="bear-name">{{ bear.name }}</div>
+        
+        <!-- Bear colors -->
+        <div class="bear-colors">
+          <div 
+            *ngFor="let color of bear.colors" 
+            class="color-indicator"
+            [style.background-color]="color.hexa"
+            [title]="color.name">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading state -->
+    <div *ngIf="movingBears().length === 0 && !gameMessage()" class="loading-state">
+      <div class="loading-spinner"></div>
+      <p>Loading bears...</p>
+    </div>
+  </div>
+
+  <!-- Game Instructions -->
+  <div class="game-info">
+    <h3>How to Play:</h3>
+    <ul>
+      <li>Click the "Start Game" button to begin</li>
+      <li>Bears will move randomly around the screen</li>
+      <li>Click on bears in ascending order by their ID number</li>
+      <li>You have 30 seconds to click all bears correctly</li>
+      <li>Clicking a bear out of order ends the game</li>
+      <li>Complete all bears before time runs out to win!</li>
+    </ul>
+  </div>
+</div>

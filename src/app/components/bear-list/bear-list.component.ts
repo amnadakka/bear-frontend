@@ -62,4 +62,8 @@ export class BearListComponent implements OnInit {
   trackByColorId(index: number, color: any): number {
     return color.id;
   }
+
+  deleteBear(bearId: number): void {
+    this.bearService.deleteBear(bearId).subscribe();
+  }
 }

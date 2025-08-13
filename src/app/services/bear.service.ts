@@ -75,4 +75,41 @@ export class BearService {
       })
     );
   }
+
+  deleteBear(bearId: number): Observable<void> {
+    this.isLoading.set(true);
+    this.error.set(null);
+    
+    return this.http.delete<void>(`${this.API_URL}/${bearId}`).pipe(
+      tap({
+        next: () => {
+          this.bearsSignal.update(bears => bears.filter(bear => bear.id !== bearId));
+          this.isLoading.set(false);
+        },
+        error: (error) => {
+          this.error.set('Failed to delete bear');
+          this.isLoading.set(false);
+          console.error('Error deleting bear:', error);
+        }
+      })
+    );
+  }
+
+  getBearById(bearId: number): Observable<Bear> {
+    this.isLoading.set(true);
+    this.error.set(null);
+    
+    return this.http.get<Bear>(`${this.API_URL}/${bearId}`).pipe(
+      tap({
+        next: () => {
+          this.isLoading.set(false);
+        },
+        error: (error) => {
+          this.error.set('Failed to fetch bear');
+          this.isLoading.set(false);
+          console.error('Error fetching bear:', error);
+        }
+      })
+    );
+  }
 }

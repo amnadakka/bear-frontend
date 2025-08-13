@@ -8,7 +8,7 @@ import { ColorService } from './services/color.service';
   standalone: true,
   imports: [BearFormComponent, BearListComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
   private colorService = inject(ColorService);

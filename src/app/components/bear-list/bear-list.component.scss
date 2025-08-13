@@ -124,6 +124,43 @@
       }
     }
 
+    .delete-button {
+      position: absolute;
+      top: var(--space-sm);
+      right: var(--space-sm);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--error-500);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: var(--font-size-lg);
+      font-weight: bold;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-normal);
+      z-index: 10;
+      box-shadow: var(--shadow-sm);
+
+      &:hover {
+        background: var(--error-600);
+        transform: scale(1.1);
+        box-shadow: var(--shadow-md);
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px var(--error-100);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+
     .bear-header {
       display: flex;
       justify-content: space-between;

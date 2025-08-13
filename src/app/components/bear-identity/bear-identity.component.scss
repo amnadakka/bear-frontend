@@ -1,0 +1,75 @@
+.bear-identity-card {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 2px solid transparent;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .bear-illustration {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    position: relative;
+    overflow: hidden;
+    
+    .bear-shape {
+      width: 60px;
+      height: 60px;
+      color: white;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+  }
+  
+  .bear-info {
+    flex: 1;
+    
+    .bear-name {
+      margin: 0 0 8px 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .bear-size {
+      margin: 0 0 4px 0;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    
+    .bear-color {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #666;
+      font-style: italic;
+    }
+  }
+}
+
+// Animation for card appearance
+.bear-identity-card {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

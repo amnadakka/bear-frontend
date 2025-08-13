@@ -1,0 +1,36 @@
+<div class="bear-identity-card">
+  <div class="bear-illustration" [style.background-color]="color?.hexa || '#ccc'">
+    <svg viewBox="0 0 100 100" class="bear-shape">
+      <!-- Bear head -->
+      <circle cx="50" cy="35" r="20" fill="currentColor" opacity="0.8"/>
+      
+      <!-- Bear ears -->
+      <circle cx="35" cy="25" r="8" fill="currentColor" opacity="0.8"/>
+      <circle cx="65" cy="25" r="8" fill="currentColor" opacity="0.8"/>
+      
+      <!-- Bear body -->
+      <ellipse cx="50" cy="70" rx="25" ry="20" fill="currentColor" opacity="0.8"/>
+      
+      <!-- Bear eyes -->
+      <circle cx="45" cy="32" r="2" fill="#333"/>
+      <circle cx="55" cy="32" r="2" fill="#333"/>
+      
+      <!-- Bear nose -->
+      <ellipse cx="50" cy="38" rx="1.5" ry="1" fill="#333"/>
+      
+      <!-- Bear arms -->
+      <ellipse cx="30" cy="60" rx="8" ry="12" fill="currentColor" opacity="0.8"/>
+      <ellipse cx="70" cy="60" rx="8" ry="12" fill="currentColor" opacity="0.8"/>
+      
+      <!-- Bear legs -->
+      <ellipse cx="40" cy="85" rx="6" ry="8" fill="currentColor" opacity="0.8"/>
+      <ellipse cx="60" cy="85" rx="6" ry="8" fill="currentColor" opacity="0.8"/>
+    </svg>
+  </div>
+  
+  <div class="bear-info">
+    <h3 class="bear-name">{{ name }}</h3>
+    <p class="bear-size">Size: {{ size }}</p>
+    <p class="bear-color" *ngIf="color">Color: {{ color.name }}</p>
+  </div>
+</div>

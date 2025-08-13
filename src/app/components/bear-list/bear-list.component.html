@@ -25,6 +25,15 @@
         class="bear-card fade-in-up"
         [style.animation-delay]="'calc(' + i + ' * 0.1s)'"
       >
+        <button 
+          class="delete-button" 
+          (click)="deleteBear(bear.id)"
+          type="button"
+          aria-label="Delete bear"
+        >
+          ×
+        </button>
+        
         <div class="bear-header">
           <h3>{{ bear.name }}</h3>
           <span class="bear-size">{{ bear.size }}</span>
